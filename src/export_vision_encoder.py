@@ -11,7 +11,7 @@ def export_vision_encoder(model):
         output_names=["vision_embeddings"],
         dynamic_axes={
             "pixel_values": {0: "batch"},
-            "vision_embeddings": {0: "batch"}
+            "vision_embeddings": {0: "batch"},
         },
-        opset_version=17,
+        opset_version=18,
     )

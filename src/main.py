@@ -1,4 +1,3 @@
-import torch
 from transformers import Blip2ForConditionalGeneration
 from pathlib import Path
 import importlib.util
@@ -12,7 +11,9 @@ export_opt_decoder = _opt_decoder_module.export_opt_decoder
 
 def load_model():
     return Blip2ForConditionalGeneration.from_pretrained(
-        "Salesforce/blip2-opt-2.7b", load_in_8bit=True, device_map={"": 0}, dtype=torch.float16
+        "Salesforce/blip2-opt-2.7b",
+        torch_dtype="auto",
+        device_map={"": 0},
     )  # doctest: +IGNORE_RESULT
 
 def main():
