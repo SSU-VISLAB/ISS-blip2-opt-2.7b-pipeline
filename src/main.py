@@ -12,12 +12,11 @@ export_opt_decoder = _opt_decoder_module.export_opt_decoder
 def load_model():
     return Blip2ForConditionalGeneration.from_pretrained(
         "Salesforce/blip2-opt-2.7b",
-        torch_dtype="auto",
-        device_map={"": 0},
     )  # doctest: +IGNORE_RESULT
 
 def main():
     model = load_model()
+    model = model.to("cuda")
     export_q_former(model)
     export_vision_encoder(model)
     export_opt_decoder(model)
