@@ -26,7 +26,7 @@ def export_opt_decoder(model):
     torch.onnx.export(
         wrapper,
         (input_ids, attention_mask),
-        "opt_decoder_with_past.onnx",
+        "model/opt_decoder_with_past.onnx",
         input_names=["input_ids", "attention_mask"],
         output_names=["logits"],
         opset_version=18,

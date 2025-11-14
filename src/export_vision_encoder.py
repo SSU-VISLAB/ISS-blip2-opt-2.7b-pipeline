@@ -6,7 +6,7 @@ def export_vision_encoder(model):
     torch.onnx.export(
         vision,
         dummy_image,
-        "vision_encoder.onnx",
+        "model/vision_encoder.onnx",
         input_names=["pixel_values"],
         output_names=["vision_embeddings"],
         dynamic_axes={

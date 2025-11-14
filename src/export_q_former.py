@@ -26,7 +26,7 @@ def export_q_former(model):
     torch.onnx.export(
         wrapper,
         (vision_embeds, vision_attention_mask, query_attention_mask, query_tokens),
-        "qformer.onnx",
+        "model/qformer.onnx",
         input_names=["vision_embeds", "vision_attention_mask", "query_attention_mask", "query_tokens"],
         output_names=["qformer_output"],
         dynamic_axes={

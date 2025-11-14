@@ -17,6 +17,7 @@ def load_model():
 def main():
     model = load_model()
     model = model.to("cuda")
+    Path("model").mkdir(exist_ok=True)
     export_q_former(model)
     export_vision_encoder(model)
     export_opt_decoder(model)
