@@ -5,7 +5,7 @@ services:
     volumes:
       - ./model:/workspace/model
       - ./output:/workspace/output
-      - ./convert_to_engine.sh:/workspace/convert_to_engine.sh
+      - ./scripts/convert_to_engine.sh:/workspace/convert_to_engine.sh
     working_dir: /workspace
     command: bash convert_to_engine.sh
     environment:
