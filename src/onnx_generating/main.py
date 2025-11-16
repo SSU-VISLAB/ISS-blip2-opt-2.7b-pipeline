@@ -18,8 +18,8 @@ def main():
     model = load_model()
     model = model.to("cuda")
     Path("model").mkdir(exist_ok=True)
-    export_q_former(model)
     export_vision_encoder(model)
+    export_q_former(model)
     export_opt_decoder(model)
 
 if __name__ == "__main__":

@@ -1,0 +1,33 @@
+name: "vision_encoder"
+platform: "tensorrt_plan"
+max_batch_size: 1
+default_model_filename: "vision_encoder.plan"
+
+input [
+  {
+    name: "pixel_values"
+    data_type: TYPE_FP32
+    dims: [ 3, 224, 224 ]
+  }
+]
+
+output [
+  {
+    name: "vision_embeddings"
+    data_type: TYPE_FP32
+    dims: [ 257, 1408 ]
+  },
+  {
+    name: "layer_norm_79"
+    data_type: TYPE_FP32
+    dims: [ 1408 ]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+  }
+]
+

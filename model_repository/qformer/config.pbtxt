@@ -1,0 +1,43 @@
+name: "qformer"
+platform: "tensorrt_plan"
+max_batch_size: 1
+default_model_filename: "qformer.plan"
+
+input [
+  {
+    name: "vision_embeds"
+    data_type: TYPE_FP32
+    dims: [ 257, 1408 ]
+  },
+  {
+    name: "vision_attention_mask"
+    data_type: TYPE_FP32
+    dims: [ 257 ]
+  },
+  {
+    name: "query_attention_mask"
+    data_type: TYPE_FP32
+    dims: [ 32 ]
+  },
+  {
+    name: "query_tokens"
+    data_type: TYPE_FP32
+    dims: [ 32, 768 ]
+  }
+]
+
+output [
+  {
+    name: "qformer_output"
+    data_type: TYPE_FP32
+    dims: [ 32, 768 ]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+  }
+]
+

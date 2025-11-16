@@ -1,0 +1,38 @@
+name: "opt_decoder_with_past"
+platform: "tensorrt_plan"
+max_batch_size: 1
+default_model_filename: "opt_decoder_with_past.plan"
+
+input [
+  {
+    name: "qformer_output"
+    data_type: TYPE_FP32
+    dims: [ 32, 768 ]
+  },
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  },
+  {
+    name: "attention_mask"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "logits"
+    data_type: TYPE_FP32
+    dims: [ 33, 50304 ]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+  }
+]
+

@@ -1,0 +1,106 @@
+name: "blip2_ensemble"
+platform: "ensemble"
+max_batch_size: 1
+
+input [
+  {
+    name: "pixel_values"
+    data_type: TYPE_FP32
+    dims: [ 3, 224, 224 ]
+  },
+  {
+    name: "vision_attention_mask"
+    data_type: TYPE_FP32
+    dims: [ 257 ]
+  },
+  {
+    name: "query_attention_mask"
+    data_type: TYPE_FP32
+    dims: [ 32 ]
+  },
+  {
+    name: "query_tokens"
+    data_type: TYPE_FP32
+    dims: [ 32, 768 ]
+  },
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  },
+  {
+    name: "attention_mask"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "logits"
+    data_type: TYPE_FP32
+    dims: [ 33, 50304 ]
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "vision_encoder"
+      model_version: -1
+      input_map {
+        key: "pixel_values"
+        value: "pixel_values"
+      }
+      output_map {
+        key: "vision_embeddings"
+        value: "vision_embeddings"
+      }
+    },
+    {
+      model_name: "qformer"
+      model_version: -1
+      input_map {
+        key: "vision_embeds"
+        value: "vision_embeddings"
+      }
+      input_map {
+        key: "vision_attention_mask"
+        value: "vision_attention_mask"
+      }
+      input_map {
+        key: "query_attention_mask"
+        value: "query_attention_mask"
+      }
+      input_map {
+        key: "query_tokens"
+        value: "query_tokens"
+      }
+      output_map {
+        key: "qformer_output"
+        value: "qformer_output"
+      }
+    },
+    {
+      model_name: "opt_decoder_with_past"
+      model_version: -1
+      input_map {
+        key: "qformer_output"
+        value: "qformer_output"
+      }
+      input_map {
+        key: "input_ids"
+        value: "input_ids"
+      }
+      input_map {
+        key: "attention_mask"
+        value: "attention_mask"
+      }
+      output_map {
+        key: "logits"
+        value: "logits"
+      }
+    }
+  ]
+}
+
